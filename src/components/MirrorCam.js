@@ -3,7 +3,7 @@ import Webcam from 'react-webcam'
 import "./Filter.css"
 
 const MirrorCam = () => {
-  const [camera, setCamera] = useState(true)
+  const [camera, setCamera] = useState(false)
   const [overlayStyle, setOverlayStyle] = useState({})
 
   const toggleCamera = () => {
