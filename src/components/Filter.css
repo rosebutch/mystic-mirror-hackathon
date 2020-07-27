@@ -1,0 +1,17 @@
+.camera {
+  height: 480px;
+  width: 640px;
+  background-color: #000000;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.overlay {
+  height: 480px;
+  width: 640px;
+  opacity: .5;
+  position: absolute;
+  z-index: 1;
+}
