@@ -1,13 +1,12 @@
 import React, { Component } from "react"
 import "./App.css"
-import Webcam from 'react-webcam'
-
+import MirrorCam from "./components/MirrorCam"
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Webcam />
+        <MirrorCam />
       </div>
     )
   }
