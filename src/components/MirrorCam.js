@@ -28,8 +28,8 @@ const MirrorCam = () => {
         {camera && <Webcam mirrored={true} audio={false}/>}
       </div>
       <div className='alert'>
-        <button className="btn btn-info m-3" onClick={toggleCamera}>{camera? "camera off":"camera on" }</button>
-        {camera && <button className="btn btn-info m-3" onClick={changeColor}>generate reading</button>}
+        <button onClick={toggleCamera}>{camera? "camera off":"camera on" }</button>
+        {camera && <button  onClick={changeColor}>generate reading</button>}
       </div>
     </div>
   )

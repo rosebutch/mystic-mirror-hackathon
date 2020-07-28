@@ -15,3 +15,12 @@
   position: absolute;
   z-index: 1;
 }
+
+button {
+  min-height: 20px;
+  min-width: 20px;
+  background-color: #414a4c;
+  color: #ffffff;
+  border-radius: 20px;
+  margin: 20px;
+}
