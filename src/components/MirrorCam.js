@@ -1,10 +1,27 @@
-import React, {useState} from "react"
+import React, { useState, useEffect, useRef } from "react"
+import * as FaceAPI from 'face-api.js'
 import Webcam from 'react-webcam'
 import "./Filter.css"
 
 const MirrorCam = () => {
+  const webcamRef = useRef(null);
   const [camera, setCamera] = useState(false)
   const [overlayStyle, setOverlayStyle] = useState({})
+
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        await Promise.all([
+          FaceAPI.nets.tinyFaceDetector.loadFromUri("/models"),
+          FaceAPI.nets.faceExpressionNet.loadFromUri("/models")
+        ])
+        console.log("hacker voice: i'm in!")
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    loadModels()
+  }, [])
 
   const toggleCamera = () => {
     setOverlayStyle({})
@@ -25,7 +42,7 @@ const MirrorCam = () => {
     <div>
       <div className='card camera' >
         {camera && overlayStyle && <div className='overlay' style={overlayStyle} />}
-        {camera && <Webcam mirrored={true} audio={false}/>}
+        {camera && <Webcam ref={webcamRef} mirrored={true} audio={false}/>}
       </div>
       <div className='alert'>
         <button onClick={toggleCamera}>{camera? "camera off":"camera on" }</button>
