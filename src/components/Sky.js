@@ -4,7 +4,7 @@ import Star from './Star'
 const Sky = () => {
   const [stars, setStars] = useState([])
   useEffect(() => {
-    setStars(makeStars(500))
+    setStars(makeStars(200))
   }, []);
   const makeStars = numStars => {
     const arr = []
