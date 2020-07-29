@@ -6,22 +6,28 @@ import "./Filter.css"
 const MirrorCam = () => {
   const webcamRef = useRef(null);
   const [camera, setCamera] = useState(false)
+  const [detections, setDetections] = useState({})
   const [overlayStyle, setOverlayStyle] = useState({})
 
   useEffect(() => {
-    const loadModels = async () => {
-      try {
-        await Promise.all([
-          FaceAPI.nets.tinyFaceDetector.loadFromUri("/models"),
-          FaceAPI.nets.faceExpressionNet.loadFromUri("/models")
-        ])
-        console.log("hacker voice: i'm in!")
-      } catch (err) {
-        console.log(err)
+    if (camera && webcamRef && webcamRef.current && webcamRef.current.video) {
+      console.log("video ref", webcamRef.current.video)
+
+      const waitForIt = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+      const getFaceStuff = async () => {
+        console.log("inside getFaceStuff")
+        await waitForIt(5000)
+        console.log("waited")
+        const face = await FaceAPI.detectSingleFace(webcamRef.current.video, new FaceAPI.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+        console.log(face)
+        setDetections(face)
+        console.log(detections)
       }
+
+      getFaceStuff()
     }
-    loadModels()
-  }, [])
+  }, [camera, detections])
 
   const toggleCamera = () => {
     setOverlayStyle({})
