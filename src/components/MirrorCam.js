@@ -3,6 +3,7 @@ import * as FaceAPI from 'face-api.js'
 import Webcam from 'react-webcam'
 import "./Filter.css"
 import { generateRandomColor, emotionColor } from '../utility'
+import Emotions from "./Emotions"
 
 const MirrorCam = props => {
   const { setEmotion } = props
@@ -12,6 +13,13 @@ const MirrorCam = props => {
   const [camera, setCamera] = useState(false)
   const [overlayStyle, setOverlayStyle] = useState(defaultColor)
   const [loading, setLoading] = useState(false)
+  const [allEmotions, setAllEmotions] = useState([])
+
+  const onFailedRead = () => {
+    setEmotion(defaultEmotion)
+    setAllEmotions([])
+    setOverlayStyle(`#${generateRandomColor()}`)
+  }
 
   const generateReading = async () => {
     if (!loading) {
@@ -21,7 +29,8 @@ const MirrorCam = props => {
         const face = await FaceAPI.detectSingleFace(webcamRef.current.video, new FaceAPI.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
         console.log("here's your face data, in case you're curious: ", face)
         if (face) {
-          const mostLikelyExpression = Object.entries(face.expressions).reduce((accumulator, currentEmotion)=> {
+          const emotionArray = Object.entries(face.expressions)
+          const mostLikelyExpression = emotionArray.reduce((accumulator, currentEmotion)=> {
             if (currentEmotion[1] > accumulator[1]) {
               return currentEmotion
             } else {
@@ -30,27 +39,26 @@ const MirrorCam = props => {
           },['neutral', -1])[0]
           const nose = face.landmarks.getNose()[0]
           const style = `at ${640 - Math.floor(nose.x)}px ${Math.floor(nose.y)}px, ${emotionColor[mostLikelyExpression]} 40%, #${generateRandomColor()}`
+          setAllEmotions(emotionArray)
           setEmotion(`are you feeling a bit ${mostLikelyExpression}?`)
           setOverlayStyle(style)
         } else {
-          setEmotion(defaultEmotion)
-          setOverlayStyle(`#${generateRandomColor()}`)
+          onFailedRead()
         }
       } catch (err) {
         console.error(err)
       }
     } else {
-      setEmotion(defaultEmotion)
-      setOverlayStyle(`#${generateRandomColor()}`)
+      onFailedRead()
     }
     setLoading(false)
     }
   }
 
-
   const toggleCamera = () => {
     setCamera(!camera)
     setOverlayStyle(defaultColor)
+    setAllEmotions([])
     setEmotion(defaultEmotion)
   }
 
@@ -64,6 +72,7 @@ const MirrorCam = props => {
         <button onClick={toggleCamera}>turn camera {camera? " off":" on" }</button>
         {camera && <button onClick={generateReading}>{loading? "loading  " :"generate "}reading</button>}
       </div>
+      {allEmotions && allEmotions.length && <Emotions allEmotions={allEmotions} />}
     </div>
   )
 }

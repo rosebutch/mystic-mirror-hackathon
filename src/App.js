@@ -32,7 +32,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>mystic mirror</h1>
-        <p> your virtual mood ring. {this.state.emotion} </p>
+        <p> your virtual mood ring. show us all your emotions. {this.state.emotion} </p>
         <MirrorCam  setEmotion={this.setEmotion} />
         <Sky />
       </div>
