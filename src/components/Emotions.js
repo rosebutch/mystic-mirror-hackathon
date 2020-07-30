@@ -17,9 +17,9 @@ const Emotions = props => {
   return (
     <div className='card emotions'>
       {seeDetails && <div>
-        here's what we think:
+        here's what i think:
         <ul>
-          {allEmotions.map( emotion=> <li key={emotion[0]} >{emotion[0]}: {Math.round(emotion[1]*100)}% </li>)}
+          { allEmotions && allEmotions.length > 0? allEmotions.map( emotion=> <li key={emotion[0]} >{emotion[0]}: {Math.round(emotion[1]*100)}% </li>) : <li>i don't know, <br/>so i gave you <br/>a random color. <br/>can you see your <br/>face in the mirror? <br/>if so, try again.</li>}
         </ul>
       </div>}
       <button onClick={toggleDetails}>{seeDetails?"hide ":"see "} reading details</button>
