@@ -6,7 +6,6 @@ import "./Filter.css"
 const MirrorCam = () => {
   const webcamRef = useRef(null);
   const [camera, setCamera] = useState(false)
-  const [detections, setDetections] = useState({})
   const [overlayStyle, setOverlayStyle] = useState({})
 
   useEffect(() => {
@@ -15,33 +14,59 @@ const MirrorCam = () => {
 
       const waitForIt = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+      const generateRandomColor = () => {
+        return Math.floor(Math.random()*16777215).toString(16)
+      }
+
+      const emotionColor = {
+        fearful: 'red',
+        disgusted: 'orange',
+        angry: 'yellow',
+        sad: 'green',
+        surprised: 'blue',
+        happy: 'indigo',
+        neutral: 'purple'
+      }
+
       const getFaceStuff = async () => {
-        console.log("inside getFaceStuff")
-        await waitForIt(5000)
-        console.log("waited")
-        const face = await FaceAPI.detectSingleFace(webcamRef.current.video, new FaceAPI.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
-        console.log(face)
-        setDetections(face)
-        console.log(detections)
+        try {
+          await waitForIt(2000)
+          const face = await FaceAPI.detectSingleFace(webcamRef.current.video, new FaceAPI.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+          console.log("face data: ", face)
+          await waitForIt(2000)
+          if (face) {
+            const mostLikelyExpression = Object.entries(face.expressions).reduce((accumulator, currentEmotion)=> {
+              console.log("currentEmotion: ", currentEmotion)
+              console.log("accumulator: ", accumulator)
+              if (currentEmotion[1] > accumulator[1]) {
+                return currentEmotion
+              } else {
+                return accumulator
+              }
+            },['neutral', -1])[0]
+            await waitForIt(2000)
+            const style = {backgroundImage: `radial-gradient(at ${face.detection.box.x}px ${face.detection.box.y}px, ${emotionColor[mostLikelyExpression]}, #${generateRandomColor()}, #000000)`}
+            setOverlayStyle(style)
+            console.log('overlay reflecting emotion: ', style)
+          } else {
+            const randomStyle = {
+              backgroundImage: `radial-gradient(#${generateRandomColor()}, #${generateRandomColor()}, #000000)`
+            }
+            setOverlayStyle(randomStyle)
+            console.log('randomly generated overlay: ', randomStyle)
+          }
+        } catch (err) {
+          console.error(err)
+        }
       }
 
       getFaceStuff()
     }
-  }, [camera, detections])
+  }, [camera, overlayStyle])
 
   const toggleCamera = () => {
     setOverlayStyle({})
     setCamera(!camera)
-  }
-
-  const changeColor = () => {
-    setOverlayStyle({
-      backgroundImage: `radial-gradient(#${generateRandomColor()}, #${generateRandomColor()}, #${generateRandomColor()})`
-    })
-  }
-
-  const generateRandomColor = () => {
-    return Math.floor(Math.random()*16777215).toString(16)
   }
 
   return (
@@ -51,8 +76,7 @@ const MirrorCam = () => {
         {camera && <Webcam ref={webcamRef} mirrored={true} audio={false}/>}
       </div>
       <div className='alert'>
-        <button onClick={toggleCamera}>{camera? "camera off":"camera on" }</button>
-        {camera && <button  onClick={changeColor}>generate reading</button>}
+        <button onClick={toggleCamera}>turn camera {camera? " off":" on" }</button>
       </div>
     </div>
   )
