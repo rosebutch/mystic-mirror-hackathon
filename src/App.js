@@ -5,6 +5,16 @@ import Sky from "./components/Sky"
 import * as FaceAPI from 'face-api.js'
 
 class App extends Component {
+  constructor () {
+    super()
+    this.state = {
+      emotion: 'how are you feeling?'
+    }
+  }
+
+  setEmotion = emotion => {
+    this.setState({emotion})
+  }
 
   async componentDidMount () {
     try {
@@ -13,7 +23,6 @@ class App extends Component {
         FaceAPI.nets.faceLandmark68Net.loadFromUri('/models'),
         FaceAPI.nets.faceExpressionNet.loadFromUri("/models")
       ])
-      console.log("hacker voice: i'm in! models are loaded.")
     } catch (err) {
       console.error(err)
     }
@@ -23,8 +32,8 @@ class App extends Component {
     return (
       <div className="App">
         <h1>mystic mirror</h1>
-        <p> use the buttons below to generate an aura reading </p>
-        <MirrorCam />
+        <p> your virtual mood ring. {this.state.emotion} </p>
+        <MirrorCam  setEmotion={this.setEmotion} />
         <Sky />
       </div>
     )
