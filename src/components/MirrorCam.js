@@ -72,7 +72,7 @@ const MirrorCam = props => {
         <button onClick={toggleCamera}>turn camera {camera? " off":" on" }</button>
         {camera && <button onClick={generateReading}>{loading? "loading  " :"generate "}reading</button>}
       </div>
-      {allEmotions && allEmotions.length && <Emotions allEmotions={allEmotions} />}
+      {allEmotions && allEmotions.length > 0 && <Emotions allEmotions={allEmotions} />}
     </div>
   )
 }
