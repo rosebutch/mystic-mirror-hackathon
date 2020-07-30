@@ -11,7 +11,7 @@ export const emotionColor = {
   sad: 'blue',
   surprised: 'orange',
   happy: 'yellow',
-  neutral: 'indigo'
+  neutral: 'olive'
 }
 
 export default { waitForIt, generateRandomColor, emotionColor }

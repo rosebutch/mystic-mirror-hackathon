@@ -38,7 +38,7 @@ const MirrorCam = props => {
             }
           },['neutral', -1])[0]
           const nose = face.landmarks.getNose()[0]
-          const style = `at ${640 - Math.floor(nose.x)}px ${Math.floor(nose.y)}px, ${emotionColor[mostLikelyExpression]} 40%, #${generateRandomColor()}`
+          const style = `at ${640 - Math.floor(nose.x)}px ${Math.floor(nose.y)}px, ${emotionColor[mostLikelyExpression]} 40%`
           setAllEmotions(emotionArray)
           setEmotion(`are you feeling a bit ${mostLikelyExpression}?`)
           setOverlayStyle(style)
@@ -72,7 +72,7 @@ const MirrorCam = props => {
         <button onClick={toggleCamera}>turn camera {camera? " off":" on" }</button>
         {camera && <button onClick={generateReading}>{loading? "loading  " :"generate "}reading</button>}
       </div>
-      {allEmotions && allEmotions.length > 0 && <Emotions allEmotions={allEmotions} />}
+      <Emotions allEmotions={allEmotions} />
     </div>
   )
 }
