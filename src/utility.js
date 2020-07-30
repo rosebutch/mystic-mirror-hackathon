@@ -5,13 +5,13 @@ export const generateRandomColor = () => {
 }
 
 export const emotionColor = {
-  fearful: 'red',
-  disgusted: 'orange',
-  angry: 'yellow',
-  sad: 'green',
-  surprised: 'blue',
-  happy: 'indigo',
-  neutral: 'purple'
+  fearful: 'purple',
+  disgusted: 'green',
+  angry: 'red',
+  sad: 'blue',
+  surprised: 'orange',
+  happy: 'yellow',
+  neutral: 'indigo'
 }
 
 export default { waitForIt, generateRandomColor, emotionColor }

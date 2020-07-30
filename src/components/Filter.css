@@ -1,7 +1,7 @@
 .camera {
   height: 480px;
   width: 640px;
-  background-color: #000000;
+  background-color: black;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
@@ -15,6 +15,18 @@
   position: absolute;
   z-index: 1;
   animation: fadeIn 3s linear;
+}
+
+.emotions {
+  bottom: 0px;
+  right: 0px;
+  opacity: 1;
+  background-color: transparent;
+  position: absolute;
+  z-index: 1;
+  animation: fadeIn 3s linear;
+  text-align: left;
+  padding: 10px;
 }
 
 button {
