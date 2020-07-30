@@ -11,9 +11,10 @@
 .overlay {
   height: 480px;
   width: 640px;
-  opacity: .5;
+  opacity: .75;
   position: absolute;
   z-index: 1;
+  animation: fadeIn 3s linear;
 }
 
 button {
@@ -23,4 +24,12 @@ button {
   color: #ffffff;
   border-radius: 20px;
   margin: 20px;
+  animation: fadeIn 3s linear;
+}
+
+button:focus {outline:0;}
+
+@keyframes fadeIn {
+  0% { opacity: 1 }
+  100% { opacity: .75 }
 }
