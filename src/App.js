@@ -1,20 +1,10 @@
 import React, { Component } from "react"
 import "./App.css"
-import MirrorCam from "./components/MirrorCam"
+import Face from "./components/Face"
 import Sky from "./components/Sky"
 import * as FaceAPI from 'face-api.js'
 
 class App extends Component {
-  constructor () {
-    super()
-    this.state = {
-      emotion: 'how are you feeling?'
-    }
-  }
-
-  setEmotion = emotion => {
-    this.setState({emotion})
-  }
 
   async componentDidMount () {
     try {
@@ -32,8 +22,8 @@ class App extends Component {
     return (
       <div className="App">
         <h1>mystic mirror</h1>
-        <p> your virtual mood ring. show us all your emotions. {this.state.emotion} </p>
-        <MirrorCam  setEmotion={this.setEmotion} />
+        <p> your virtual mood ring. show us all your emotions.</p>
+        <Face />
         <Sky />
       </div>
     )

@@ -11,7 +11,25 @@ export const emotionColor = {
   sad: 'blue',
   surprised: 'orange',
   happy: 'yellow',
-  neutral: 'olive'
+  neutral: 'grey'
 }
 
-export default { waitForIt, generateRandomColor, emotionColor }
+export const makeStars = numStars => {
+  const arr = []
+  for (let i = 0; i <= numStars; i++) {
+    arr.push('')
+  }
+  return arr
+}
+
+export const findLikelyExpression = arr => {
+  return arr.reduce((accumulator, currentEmotion)=> {
+    if (currentEmotion[1] > accumulator[1]) {
+      return currentEmotion
+    } else {
+      return accumulator
+    }
+  },['neutral', 0])[0]
+}
+
+export default { waitForIt, generateRandomColor, emotionColor, makeStars, findLikelyExpression }
