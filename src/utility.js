@@ -14,4 +14,12 @@ export const emotionColor = {
   neutral: 'olive'
 }
 
-export default { waitForIt, generateRandomColor, emotionColor }
+export const makeStars = numStars => {
+  const arr = []
+  for (let i = 0; i <= numStars; i++) {
+    arr.push('')
+  }
+  return arr
+}
+
+export default { waitForIt, generateRandomColor, emotionColor, makeStars }
